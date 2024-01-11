@@ -1,10 +1,11 @@
 import react from "react";
+import Form from "./Form"
 
 const LoginPage = () => {
   console.log("working");
   return (
     <>
-      <h1>Login page</h1>
+      <Form/>
     </>
   );
 };
