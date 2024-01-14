@@ -1,35 +1,49 @@
 import { useState, useEffect } from "react";
 import "./Form.css";
 
+const initialValuesLogin = {
+  email: "",
+  password: "",
+};
+
+const initialValuesRegister = {
+  fullName: "",
+  ...initialValuesLogin
+}
+
 const Form = () => {
   const [pageType, setPageType] = useState("login");
+  const [inputValues, setInputValues] = useState(
+    pageType === "login" ? initialValuesLogin : initialValuesRegister
+  );
+
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
 
-  console.log(isLogin);
-  console.log("register " + isRegister);
-
-  const handleBlur = () => {
-    // Implement your blur logic here
+  const handleBlur = (event) => {
+    console.log(event.target.value + " i am on blur--------------------");
   };
 
-  const handleChange = () => {
-    // Implement your change logic here
+  const handleChange = (event) => {
+    const {name, value }= event.target;
+    setInputValues({
+      ...inputValues,
+      [name]: value,
+    });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(event)
+    console.log(inputValues);
   };
 
   const resetForm = () => {
-    // Implement your form reset logic here
+    setInputValues({
+      fullName: "",
+      email: "",
+      password: "",
+    })
   };
-
-  const values = {}; // Define your initial values
-  const touched = {}; // Define your touched values
-  const errors = {}; // Define your error values
-  const isSubmitting = false; // Define your submitting state
 
   return (
     <>
@@ -38,16 +52,37 @@ const Form = () => {
           {isRegister && (
             <div>
               <label htmlFor="FullName">Full Name</label>
-              <input type="text" name="FullName" placeholder="Your Full Name" />
+              <input
+                type="text"
+                name="fullName"
+                placeholder="Your Full Name"
+                value={inputValues.fullName}
+                onBlur={handleBlur}
+                onChange={handleChange}
+              />
             </div>
           )}
           <>
             <label htmlFor="email">email</label>
-            <input type="email" name="email" placeholder="your email" />
+            <input
+              type="email"
+              name="email"
+              placeholder="your email"
+              value={inputValues.email}
+              onBlur={handleBlur}
+              onChange={handleChange}
+            />
           </>
           <>
             <label htmlFor="password">Password</label>
-            <input type="password" name="password" placeholder="password" />
+            <input
+              type="password"
+              name="password"
+              placeholder="password"
+              value={inputValues.password}
+              onBlur={handleBlur}
+              onChange={handleChange}
+            />
           </>
           <>
             <span
@@ -69,9 +104,7 @@ const Form = () => {
 
 export default Form;
 
-
-
-  /* <form className="container" onSubmit={handleSubmit}>
+/* <form className="container" onSubmit={handleSubmit}>
         <div className="form-container">
           {isRegister && (
             <div className="input-wrapper">
@@ -138,4 +171,3 @@ export default Form;
           </div>
         </div>
       </form> */
-
