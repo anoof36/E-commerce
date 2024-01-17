@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./Form.css";
+import style from "./Form.module.css";
 
 const initialValuesLogin = {
   email: "",
@@ -21,7 +21,7 @@ const Form = () => {
   const isRegister = pageType === "register";
 
   const handleBlur = (event) => {
-    console.log(event.target.value + " i am on blur--------------------");
+    
   };
 
   const handleChange = (event) => {
@@ -47,7 +47,7 @@ const Form = () => {
 
   return (
     <>
-      <div className="container">
+      <div className={style.container}>
         <form onSubmit={handleSubmit}>
           {isRegister && (
             <div>
@@ -86,7 +86,7 @@ const Form = () => {
           </>
           <>
             <span
-              className="link"
+              className={style.link}
               onClick={() => {
                 resetForm();
                 setPageType(isLogin ? "register" : "login");

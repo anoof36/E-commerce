@@ -3,6 +3,7 @@
   background: #88AB8E;
   border-radius: 10px;
   padding: 50px;
+  margin: 0 1rem;
 }
 
 input[type=text], input[type=email], input[type=password] {

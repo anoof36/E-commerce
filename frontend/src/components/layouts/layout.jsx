@@ -6,12 +6,10 @@ const RouterGuard = () => {
       style={{
         backgroundColor: "#AFC8AD",
         color: "black",
-        width: "100vw",
-        height: "100vh",
+        width: "100dvw",
+        height: "100dvh",
         display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-
+        padding: "1rem 1rem",
       }}
     >
       <Outlet />

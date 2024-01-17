@@ -1,0 +1,21 @@
+.container {
+    width: 100% ; 
+    min-height : 50px;
+    max-height: 8%;
+    background-color: #88AB8E;
+    border-radius: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1.5rem;
+}
+
+.right_side {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.right_side div {
+    padding-left: 1rem;
+}
