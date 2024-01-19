@@ -11,6 +11,11 @@
   position: relative;
 }
 
+.container button{
+  background-color: transparent;
+  border: none;
+}
+
 .right_side {
   display: flex;
   justify-content: space-between;

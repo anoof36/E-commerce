@@ -1,4 +1,9 @@
 import { useEffect, useState } from "react";
+import { TiThMenu } from "react-icons/ti";
+import { IoCloseOutline } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
+import { FaCartShopping } from "react-icons/fa6";
+import { FaSearch } from "react-icons/fa";
 import style from "./index.module.css";
 
 const AppHeader = () => {
@@ -22,11 +27,10 @@ const AppHeader = () => {
     };
   }, []);
 
-  console.log("header");
   return (
     <>
       <header className={style.container}>
-        <div>left</div>
+        <div>shop</div>
         {isMobile ? (
           <div>
             <button
@@ -34,15 +38,18 @@ const AppHeader = () => {
                 setIsToggle(isToggle ? false : true);
               }}
             >
-              toggle
+              {isToggle ? <IoCloseOutline /> : <TiThMenu />}
             </button>
             {/* Toggle Box */}
             {isToggle ? (
               <div className={style.toggle}>
                 <ul>
-                  <li>one</li>
-                  <li>two</li>
-                  <li>three</li>
+                  <li>
+                    cart <FaCartShopping />
+                  </li>
+                  <li>
+                    profile <CgProfile />
+                  </li>
                 </ul>
               </div>
             ) : (
@@ -52,9 +59,15 @@ const AppHeader = () => {
         ) : (
           <div className={style.right_side}>
             <ul>
-              <li>one</li>
-              <li>two</li>
-              <li>three</li>
+              <li>
+                <FaSearch />
+              </li>
+              <li>
+                <FaCartShopping />
+              </li>
+              <li>
+                <CgProfile />
+              </li>
             </ul>
           </div>
         )}
