@@ -4,7 +4,9 @@ import style from "./index.module.css";
 const AppHeader = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isToggle, setIsToggle] = useState(false);
-  console.log("toggle:", isToggle)
+
+  console.log("toggle:", isToggle);
+
   useEffect(() => {
     const handleResize = () => {
       const screenWidth = window.innerWidth;
@@ -26,16 +28,34 @@ const AppHeader = () => {
       <header className={style.container}>
         <div>left</div>
         {isMobile ? (
-          <div className={style.toggle}>
-            <button onClick={() => {
-              setIsToggle(isToggle ? false : true)
-            }}>toggle</button>
+          <div>
+            <button
+              onClick={() => {
+                setIsToggle(isToggle ? false : true);
+              }}
+            >
+              toggle
+            </button>
+            {/* Toggle Box */}
+            {isToggle ? (
+              <div className={style.toggle}>
+                <ul>
+                  <li>one</li>
+                  <li>two</li>
+                  <li>three</li>
+                </ul>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         ) : (
           <div className={style.right_side}>
-            <div>one</div>
-            <div>two</div>
-            <div>three</div>
+            <ul>
+              <li>one</li>
+              <li>two</li>
+              <li>three</li>
+            </ul>
           </div>
         )}
       </header>
