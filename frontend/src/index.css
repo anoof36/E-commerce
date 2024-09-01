@@ -5,6 +5,11 @@
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
+body {
+  background-color: #AFC8AD;
+}
+
 body::-webkit-scrollbar {
   display: none;
+
 }
