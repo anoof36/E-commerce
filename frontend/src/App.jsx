@@ -10,17 +10,13 @@ import LoginPage from "./pages/loginPage";
 import HomePage from "./pages/homePage";
 import ProductsPage from "./pages/productsPage";
 import "./App.css";
-import AppHeader from "./components/common/header";
 import Footer from "./components/common/footer";
+import Header from "./components/common/header";
 function App() {
-
-
-console.log("working App");
-
   return (
     <>
       <Router>
-        <AppHeader />
+        <Header />
         <Routes>
           <Route path="/" element={<RouterGuard />}>
             <Route index element={<HomePage />} />

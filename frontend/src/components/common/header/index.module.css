@@ -1,9 +1,7 @@
 .container {
   width: 100%;
-  min-height: 50px;
-  max-height: 8%;
+  height: 40px;
   background-color: #88ab8e;
-  border-radius: 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;

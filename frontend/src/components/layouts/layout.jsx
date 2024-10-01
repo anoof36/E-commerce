@@ -1,18 +1,22 @@
 import { Outlet } from "react-router-dom";
+import AppHeader from "../common/header";
 
 const RouterGuard = () => {
   return (
-    <div
-      style={{
-        
-        color: "black",
-        width: "100dvw",
-        display: "flex",
-        padding: "1rem 1rem",
-      }}
-    >
-      <Outlet />
-    </div>
+    <>
+      <div
+        style={{
+          paddingTop: "2rem",
+          backgroundColor: "blue",
+          color: "black",
+          width: "100dvw",
+          height: "auto",
+          display: "flex",
+        }}
+      >
+        <Outlet />
+      </div>
+    </>
   );
 };
 
