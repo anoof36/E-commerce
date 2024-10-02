@@ -1,3 +1,6 @@
+
+import 'bootstrap/dist/css/bootstrap.min.css';//Bootstrap 
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';  // Includes Popper.js and Bootstrap JS
 import RouterGuard from "./components/layouts/layout";
 import {
   BrowserRouter as Router,
