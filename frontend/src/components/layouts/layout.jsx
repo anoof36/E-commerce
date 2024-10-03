@@ -7,7 +7,6 @@ const RouterGuard = () => {
       <div
         style={{
           paddingTop: "2rem",
-          backgroundColor: "blue",
           color: "black",
           width: "100dvw",
           height: "auto",
