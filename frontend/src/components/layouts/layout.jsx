@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import AppHeader from "../common/header";
 
 const RouterGuard = () => {
   return (

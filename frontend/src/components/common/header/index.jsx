@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Search, ThreeDotsVertical } from "react-bootstrap-icons";
+import Button from "../button";
 import style from "./index.module.css";
 
 const AppHeader = () => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const togglePopup = () => {
+    setIsPopupOpen((prev) => !prev);
+  };
+
   return (
     <>
       {/* GIVING WIDTH AND HEIGHT TO THE PARENT CONTAINER */}
@@ -13,7 +20,7 @@ const AppHeader = () => {
         {/* CREATING A DIV FOR TWO MAIN ROWS  */}
         <div className="row m-0 w-100 h-100 ">
           {/* TOP DIV, FOR LOGO AND SEARCH BAR */}
-          <div className="navbar navbar-expand-lg col-12 h-75 d-flex justify-content-between">
+          <div className="col-12 h-75 d-flex justify-content-between align-items-center p-0">
             {/* DIV START, FOR LOGO */}
             <div className="col-3 d-flex justify-content-center align-items-center">
               <h1 className="m-0">VIBE</h1>
@@ -21,13 +28,11 @@ const AppHeader = () => {
 
             {/* DIV END, SEARCH AND TOGGLE BUTTON */}
             <div
-              className="d-flex justify-content-between align-items-center col-7"
+              className="d-flex justify-content-between align-items-center col-7 gap-5 pe-2"
               style={{ height: "30px" }}
             >
               {/* SEARCH */}
-              <form
-                className="d-flex h-100 rounded-2 shadow"
-              >
+              <form className="d-flex h-100 rounded-2 shadow">
                 <input
                   className="form-control border-0"
                   type="search"
@@ -41,79 +46,79 @@ const AppHeader = () => {
                 </button>
               </form>
 
-              {/* TOGGLE BUTOON */}
-              <button
-                className="border-0 bg-transparent mx-2"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-              >
-               <ThreeDotsVertical />
-              </button>
+              {/* TOGGLE BUTTON */}
+              <div className="position-relative">
+                <Button
+                  onClick={togglePopup}
+                  ariaExpanded={isPopupOpen}
+                  ariaLabel="Toggle popup menu"
+                >
+                  <ThreeDotsVertical />
+                </Button>
+
+                {/* POPUP MENU */}
+                {isPopupOpen && (
+                  <div
+                    className="d-flex flex-column bg-danger position-absolute rounded-1 shadow"
+                    style={{
+                      top: 0, // Move below the button
+                      right: 0, // Align to the right
+                      width: "200px", // Set width
+                      zIndex: 99,
+                    }}
+                  >
+                    <button
+                      className=""
+                      onClick={togglePopup}
+                      aria-label="Close popup"
+                    >
+                      <ThreeDotsVertical />
+                    </button>
+
+                    <ul className="list-unstyled p-3">
+                      <li>
+                        <a href="#">Menu Item 1</a>
+                      </li>
+                      <li>
+                        <a href="#">Menu Item 2</a>
+                      </li>
+                      <li>
+                        <a href="#">Menu Item 3</a>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
-          {/* BOTTUM DIV, FOR NAVIGATION */}
-          <div className="col-12 h-25 bg-danger">
-            <div
-              className="collapse navbar-collapse"
-              id="navbarSupportedContent"
-            >
-              <ul className="navbar-nav ms-auto">
-                <li className="nav-item active">
+          {/* BOTTOM DIV, FOR NAVIGATION */}
+          <nav className="navbar navbar-expand p-0">
+            <div className="container-fluid">
+              <ul className="navbar-nav ms-auto me-5 d-flex justify-content-between col-7 col-md-6 col-lg-3">
+                <li className="nav-item">
                   <a className="nav-link" href="#">
-                    Home <span className="sr-only">(current)</span>
+                    Home
                   </a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" href="#">
-                    Link
+                    Product
                   </a>
-                </li>
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    id="navbarDropdown"
-                    role="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    Dropdown
-                  </a>
-                  <div
-                    className="dropdown-menu"
-                    aria-labelledby="navbarDropdown"
-                  >
-                    <a className="dropdown-item" href="#">
-                      Action
-                    </a>
-                    <a className="dropdown-item" href="#">
-                      Another action
-                    </a>
-                    <div className="dropdown-divider"></div>
-                    <a className="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                  </div>
                 </li>
                 <li className="nav-item">
-                  <a
-                    className="nav-link disabled"
-                    href="#"
-                    tabindex="-1"
-                    aria-disabled="true"
-                  >
-                    Disabled
+                  <a className="nav-link" href="#">
+                    About
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="#">
+                    Contact
                   </a>
                 </li>
               </ul>
             </div>
-          </div>
+          </nav>
         </div>
       </header>
     </>
