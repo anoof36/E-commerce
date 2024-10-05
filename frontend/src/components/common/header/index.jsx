@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Search, ThreeDotsVertical } from "react-bootstrap-icons";
+import { XLg, Search, ThreeDotsVertical } from "react-bootstrap-icons";
 import Button from "../button";
 import style from "./index.module.css";
 
@@ -59,33 +59,38 @@ const AppHeader = () => {
                 {/* POPUP MENU */}
                 {isPopupOpen && (
                   <div
-                    className="d-flex flex-column bg-danger position-absolute rounded-1 shadow"
+                    className="d-flex flex-column position-absolute rounded-1"
                     style={{
-                      top: 0, // Move below the button
-                      right: 0, // Align to the right
-                      width: "200px", // Set width
+                      top: 0,
+                      right: 0,
+                      boxShadow: "rgba(0, 0, 0, 0.3) 0px 4px 12px",
+                      backgroundColor: "white",
+                      width: "300px",
                       zIndex: 99,
                     }}
                   >
-                    <button
-                      className=""
-                      onClick={togglePopup}
-                      aria-label="Close popup"
-                    >
-                      <ThreeDotsVertical />
-                    </button>
-
-                    <ul className="list-unstyled p-3">
-                      <li>
-                        <a href="#">Menu Item 1</a>
-                      </li>
-                      <li>
-                        <a href="#">Menu Item 2</a>
-                      </li>
-                      <li>
-                        <a href="#">Menu Item 3</a>
-                      </li>
-                    </ul>
+                    <div className="align-self-end ">
+                      <button
+                        className="border-0 pe-1"
+                        onClick={togglePopup}
+                        aria-label="Close popup"
+                      >
+                        <XLg style={{ color: "black", fontSize: "0.9em" }} />
+                      </button>
+                    </div>
+                    <div className="align-self-end mb-5">
+                      <ul className="list-unstyled p-3">
+                        <li>
+                          <a href="#">Menu Item 1</a>
+                        </li>
+                        <li>
+                          <a href="#">Menu Item 2</a>
+                        </li>
+                        <li>
+                          <a href="#">Menu Item 3</a>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 )}
               </div>
