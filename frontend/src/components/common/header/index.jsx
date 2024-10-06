@@ -56,7 +56,6 @@ const AppHeader = () => {
                   <ThreeDotsVertical />
                 </Button>
 
-                {/* POPUP MENU */}
                 {isPopupOpen && (
                   <div
                     className="d-flex flex-column position-absolute rounded-1"
@@ -69,7 +68,7 @@ const AppHeader = () => {
                       zIndex: 99,
                     }}
                   >
-                    <div className="align-self-end ">
+                    <div className="align-self-end">
                       <button
                         className="border-0 pe-1"
                         onClick={togglePopup}
