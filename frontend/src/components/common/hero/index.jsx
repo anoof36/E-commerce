@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import styles from "./index.module.css"
+
+
 const Hero = () => {
   // Array of image paths to be displayed in the carousel
   const images = [
@@ -30,6 +33,16 @@ const Hero = () => {
     );
   };
 
+
+   // Automatically advance the slide every 3 seconds
+   useEffect(() => {
+    const interValid = setInterval(() => {
+      handleNext(); //move to next slide
+    }, 3000);// change slide evey 3 second
+
+    return () => clearInterval(interValid)
+   }, )
+
   return (
     <>
       {/* Carousel container */}
@@ -48,32 +61,32 @@ const Hero = () => {
                   width: index === currentSlide ? "3vw" : "1vw",
                   height: "4px",
                   backgroundColor: "white",
-                  opacity: index === currentSlide ? 1 : 0.3, //setting the opacity based on the index match
-                  transition: "opacity 0.3s ease"
+                  opacity: index === currentSlide ? 1 : 0.6, //setting the opacity based on the index match
+                  transition: "width 0.3s ease"
                 }}
               ></button>
             </li>
           ))}
         </ul>
 
-        {/* Carousel images */}
-        <div className="carousel-inner bg-info">
-          {images.map((image, index) => (
-            <div
-              key={index}
-              className={`carousel-item ${
-                index === currentSlide ? "active" : ""
-              }`} // Only the active slide is visible
-            >
-              <img src={image} className="d-block w-100" alt="Slide" />{" "}
-              {/* Carousel image */}
-            </div>
-          ))}
-        </div>
-
+          {/* Carousel images */}
+          <div className={"carousel-inner w-100"}>
+            {images.map((image, index) => (
+              <div
+                key={index}
+                className={`carousel-item w-100 ${
+                  index === currentSlide ? "active" : ""
+                }`} // Only the active slide is visible
+              >
+                <img src={image} className={`d-block mx-auto ${styles.hero_image}`} alt="Slide" />
+                {/* Carousel image */}
+              </div>
+            ))}
+          </div>
+       
         {/* Previous button */}
         <a
-          className="carousel-control-prev bg-warning"
+          className="carousel-control-prev w-50"
           href="#" // Default href (can be enhanced with JS or removed depending on use case)
           role="button"
           onClick={handlePrev} // Calls handlePrev when clicked
@@ -81,15 +94,13 @@ const Hero = () => {
           <span
             className="carousel-control-prev-icon"
             aria-hidden="true"
-          ></span>{" "}
-          {/* Icon for previous control */}
-          <span className="sr-only">Previous</span>{" "}
-          {/* Accessibility: Text for screen readers */}
-        </a>
+            ></span>
+            {/* Icon for previous control */}
+          </a>
 
         {/* Next button */}
         <a
-          className="carousel-control-next bg-warning"
+          className="carousel-control-next w-50"
           href="#" // Default href (can be enhanced with JS or removed depending on use case)
           role="button"
           onClick={handleNext} // Calls handleNext when clicked
@@ -97,10 +108,9 @@ const Hero = () => {
           <span
             className="carousel-control-next-icon"
             aria-hidden="true"
-          ></span>{" "}
+          ></span>
           {/* Icon for next control */}
-          <span className="sr-only">Next</span>{" "}
-          {/* Accessibility: Text for screen readers */}
+          
         </a>
       </div>
     </>

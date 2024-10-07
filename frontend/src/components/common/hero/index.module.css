@@ -1,3 +1,18 @@
+
+.hero_image {
+  width: 100%; /* Take full width of the container */
+  max-width: 800px;
+  aspect-ratio: 16 / 9; /* Set the aspect ratio (16:9, for example) */
+  object-fit: cover; /* Ensures the image covers the area and maintains its aspect ratio */
+}
+
+@media (min-width: 1200px) {
+  .hero_image {
+    max-width: 1000px; /* increasing the image size when the screen size reach 1200px */
+  }
+}
+
+/* ----------------------------------- */
 .container {
   width: 100%;
   height: 50vh;
