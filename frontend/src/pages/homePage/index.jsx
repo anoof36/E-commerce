@@ -13,7 +13,7 @@ const HomePage = () => {
         <HeroSession />
       </div>
       <div>
-        <h2>best selling</h2>
+        <h2>Best selling</h2>
         <BestSelling />
       </div>
       <div>
