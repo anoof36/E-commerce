@@ -5,13 +5,13 @@ import styles from "./index.module.css"
 const Hero = () => {
   // Array of image paths to be displayed in the carousel
   const images = [
-    "../../public/asset/landscap_1.jpg",
-    "../../public/asset/landscap_2.jpg",
-    "../../public/asset/landscap_3.jpg",
-    "../../public/asset/landscap_4.jpg",
-    "../../public/asset/landscap_5.jpg",
-    "../../public/asset/landscap_6.jpg",
-    "../../public/asset/vr_Box.jpg",
+    "../../public/asset/hero_images/landscap_1.jpg",
+    "../../public/asset/hero_images/landscap_2.jpg",
+    "../../public/asset/hero_images/landscap_3.jpg",
+    "../../public/asset/hero_images/landscap_4.jpg",
+    "../../public/asset/hero_images/landscap_5.jpg",
+    "../../public/asset/hero_images/landscap_6.jpg",
+    "../../public/asset/hero_images/vr_Box.jpg",
   ];
 
   // State to track the currently active slide (image index)
