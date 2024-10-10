@@ -64,7 +64,7 @@ const AppHeader = () => {
                       right: 0,
                       boxShadow: "rgba(0, 0, 0, 0.3) 0px 4px 12px",
                       backgroundColor: "white",
-                      width: "300px",
+                      width: "400px",
                       zIndex: 99,
                     }}
                   >

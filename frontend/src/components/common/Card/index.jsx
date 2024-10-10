@@ -11,7 +11,12 @@ const Card = ({ image, onClick }) => {
         <div className={`w-100 m-0`}>
           <img className={`${styles.image}`} src={image} alt="product_image" />
         </div>
-        <div className={`w-100 m-0 p-2`}>product name</div>
+        <div className={`w-100 m-0 p-2`}>
+          <h4 className={``}>product name</h4>
+          <div className={``}>Offer</div>
+          <div className={``}>rating</div>{" "}
+          <div className={``}>delivery detail</div>
+        </div>
       </div>
     </div>
   );
