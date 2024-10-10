@@ -22,3 +22,4 @@ const BestSelling = () => {
 };
 
 export default BestSelling;
+  
