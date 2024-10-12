@@ -16,7 +16,7 @@ const ProductsPage = () => {
 
   return (
     <>
-      <div className="position-relative bg-info" style={{ width: "100vw" }}>
+      <div className="position-relative   " style={{ width: "100vw" }}>
 
          <button onClick={toggleFilter}>Filter</button>
 
