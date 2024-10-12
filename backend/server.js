@@ -1,5 +1,7 @@
 import express from "express";
 import "dotenv/config";
+import mongoose from "mongoose"
+import dbConnect from "./config/mongoose";
 
 /* C0NFIGURATOIN */
 const app = express();
@@ -9,6 +11,19 @@ app.get("/", (req, res) => {
   res.write("hello");
 });
 
+/* const uri = process.env.MONGO_URL; // Replace with your actual database name
+
+mongoose.connect(uri)
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch(err => {
+    console.error('Connection error', err);
+  }); */
+
+  dbConnect()
+
 /* SERVER PORT SETUP*/
-const port = process.env.PORT || 6001;
+console.log(process.env.PORT)
+const port = process.env.PORT || 6003;
 app.listen(port, () => console.log("server is running on port " + port));
