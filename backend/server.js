@@ -15,8 +15,6 @@ const upload = multer({ storage });
 /* C0NFIGURATOIN */
 const app = express();
 
-
-
 /* ROUTES */
 app.get("/", (req, res) => {
   res.write("hello");

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 /* SETTING UP MONGOOSE CONNECITON TO DB */
 const dbConnect = () => {
   const url = process.env.MONGO_URL;
-
+  
   mongoose
     .connect(url)
     .then(() => {
