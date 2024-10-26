@@ -1,6 +1,5 @@
-
-import 'bootstrap/dist/css/bootstrap.min.css';//Bootstrap 
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';  // Includes Popper.js and Bootstrap JS
+import "bootstrap/dist/css/bootstrap.min.css"; //Bootstrap
+import "bootstrap/dist/js/bootstrap.bundle.min.js"; // Includes Popper.js and Bootstrap JS
 import RouterGuard from "./components/layouts/layout";
 import {
   BrowserRouter as Router,
@@ -15,12 +14,16 @@ import ProductsPage from "./pages/productsPage";
 import "./App.css";
 import Footer from "./components/common/footer";
 import Header from "./components/common/header";
+import AddProduct from "./admin/pages/addProduct";
 function App() {
   return (
     <>
       <Router>
         <Header />
         <Routes>
+          <Route path="/admin">
+            <Route path="AddProduct" element={<AddProduct />} />
+          </Route>
           <Route path="/" element={<RouterGuard />}>
             <Route index element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />

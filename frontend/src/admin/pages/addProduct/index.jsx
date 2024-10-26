@@ -1,105 +1,114 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import axios from "axios"
 
-function AddProductPage() {
-  // State variables for form fields
-  const [productName, setProductName] = useState('');
-  const [price, setPrice] = useState('');
-  const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('');
-  const [productImage, setProductImage] = useState(null);
+const AddProductForm = () => {
+  console.log("Add product page called")
+  const[productData, setProductData] = useState({
+    name: "",
+    description: "",
+    price: 0,
+    category: "",
+    brand: "",
+    stock: 0,
+    image: [], // to handle multiple images
+    isFeatured: false,
+  });
 
-  // Handle image file change
-  const handleImageChange = (e) => {
-    setProductImage(e.target.files[0]);
+  const [selectedFiles, setSelectedFiles] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setProductData({
+      ...productData,
+      [name]: type === "checked" ? checked : value,
+    });
   };
 
-  // Handle form submission
+  const handleFileChange = (e) => {
+    setSelectedFiles(e.target.files);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Create FormData object for sending to backend
     const formData = new FormData();
-    formData.append('productName', productName);
-    formData.append('price', price);
-    formData.append('description', description);
-    formData.append('category', category);
-    formData.append('productImage', productImage);
+    formData.append("name", productData.name);
+    formData.append("description", productData.description);
+    formData.append("price", productData.price);
+    formData.append("category", productData.category);
+    formData.append("brand", productData.brand);
+    formData.append("stock", productData.stock);
+    formData.append("isFeatured", productData.isFeatured);
+
+    // add images to the formData
+    if (selectedFiles) {
+      for (let i = 0; i < selectedFiles.length; i++) {
+        formData.append("images", selectedFiles[i]);
+      }
+    }
 
     try {
-      const response = await fetch('http://localhost:6003/upload', {
-        method: 'POST',
-        body: formData,
+      console.log("product data sented to backend")
+      
+      const response = await axios.post("http://localhost:8002/api/products", formData, {
+        header: {
+          "Content-Type": "multiple/form-data",
+        },
       });
-
-      const result = await response.json();
-      if (response.ok) {
-        alert('Product added successfully');
-        // Reset form fields after successful submission
-        setProductName('');
-        setPrice('');
-        setDescription('');
-        setCategory('');
-        setProductImage(null);
-      } else {
-        alert('Failed to add product: ' + result.message);
-      }
+      console.log(response.data); //handle the response
+      console.log("file Upload success")
     } catch (error) {
-      alert('An error occurred: ' + error.message);
+      console.error("Error adding product: ", error);
     }
   };
 
-  // JSX for rendering the form
   return (
-    <div>
-      <h1>Add New Product</h1>
+    <>
       <form onSubmit={handleSubmit}>
-        <div>
-          <input
-            type="text"
-            placeholder="Product Name"
-            value={productName}
-            onChange={(e) => setProductName(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="number"
-            placeholder="Price"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <textarea
-            placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            placeholder="Category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            required
-          />
-        </div>
+        <input
+          type="text"
+          name="name"
+          placeholder="Product Name"
+          onChange={handleChange}
+        />
+        <textarea
+          name="description"
+          placeholder="Description"
+          onChange={handleChange}
+        />
+        <input
+          type="number"
+          name="price"
+          placeholder="Price"
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="category"
+          placeholder="Category"
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="brand"
+          placeholder="Brand"
+          onChange={handleChange}
+        />
+        <input
+          type="number"
+          name="stock"
+          placeholder="Stock"
+          onChange={handleChange}
+        />
+        <input type="file" multiple onChange={handleFileChange} />
+        <label>
+          Is Featured:
+          <input type="checkbox" name="isFeatured" onChange={handleChange} />
+        </label>
         <button type="submit">Add Product</button>
       </form>
-    </div>
+    </>
   );
-}
+};
 
-export default AddProductPage;
+export default AddProductForm;
