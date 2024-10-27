@@ -77,11 +77,12 @@ const productSchema = mongoose.Schema({
 
 // Middleware to update `updatedAt` on save
 productSchema.pre("save", function (next) {
+  console.log("i am product model")
   this.updatedAt = Date.now();
   next();
 });
 
 // Create the model
-const Product = mongoose.model("Product", productSchema);
+const Product = mongoose.model("Products", productSchema);
 
 export default Product;

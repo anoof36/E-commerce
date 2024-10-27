@@ -1,10 +1,19 @@
 import express from "express";
+import cors from "cors";
 import "dotenv/config";
 import dbConnect from "./config/mongoose.js";
 import multer from "multer";
-import Product from "./model/products.js"
-import cors from "cors"
+import Product from "./model/products.js";
 
+/* C0NFIGURATOIN */
+const app = express();
+
+// Enable CORS for all routes
+app.use(
+  cors({
+    origin: "*", // This means only requests from this origin are allowed
+  })
+);
 
 /* CEATING IMAGE STORAGE WITH MULTER LIBRARY */
 const storage = multer.diskStorage({
@@ -15,29 +24,23 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-/* C0NFIGURATOIN */
-const app = express();
-
-// Enable CORS for all routes
-app.use(cors());
-
 /* ROUTES */
 app.get("/", (req, res) => {
-  res.send("hello"); // Use send() to send the response
+  res.send(req.header.origin); // Use send() to send the response
 });
 
-
 // Route for adding a new product
-app.post("/api/products", upload.array("images", 5), async (req, res) => {
+app.post("/api/products", upload.array("images", 5), 
+async (req, res) => {
   try {
-   
-    const { name, description, price, category, brand, stock, isFeatured } = req.body;
+    const { name, description, price, category, brand, stock, isFeatured } =
+      req.body;
 
     const images = req.files.map((file) => ({
       url: `/uploads/images/${file.filename}`,
       altText: file.originalname,
     }));
-    
+
     const product = new Product({
       name,
       description,
@@ -49,14 +52,11 @@ app.post("/api/products", upload.array("images", 5), async (req, res) => {
       images,
     });
 
-    console.log("i am here", req.body)
-    console.log("i am here", product)
-
     await product.save();
-    console.log("product added succesfully: " , product)
+    console.log("product added succesfully: ");
     res.status(201).json({ message: "Product added successfully", product });
   } catch (error) {
-    res.status(500).json({ message: "Error adding product", error });
+    res.status(500).json({ message: error.message });
   }
 });
 

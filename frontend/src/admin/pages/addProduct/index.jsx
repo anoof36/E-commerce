@@ -58,13 +58,13 @@ const AddProductForm = () => {
       console.log(response.data); //handle the response
       console.log("file Upload success")
     } catch (error) {
-      console.error("Error adding product: ", error);
+      console.error(error.response.data.message);
     }
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form className="container" onSubmit={handleSubmit}>
         <input
           type="text"
           name="name"
@@ -105,7 +105,7 @@ const AddProductForm = () => {
           Is Featured:
           <input type="checkbox" name="isFeatured" onChange={handleChange} />
         </label>
-        <button type="submit">Add Product</button>
+        <button className="btn btn-primary" type="submit">Add Product</button>
       </form>
     </>
   );
