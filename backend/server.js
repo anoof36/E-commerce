@@ -29,8 +29,33 @@ app.get("/", (req, res) => {
   res.send(req.header.origin); // Use send() to send the response
 });
 
+app.get("/product-list", async (req, res) => {
+  try {
+    // Fetch all products from the database
+    const products = await Product.find(); // `.find()` without arguments fetches all records
+
+    // Send the products as a JSON response
+    console.log(products)
+    res.status(200).json(products);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    res.status(500).json({ message: "Error retrieving products", error: error.message });
+  }
+});
+
+// Backend route to handle deleting a product by ID
+app.delete("/products/:id", async (req, res) => {
+  try {
+    const productId = req.params.id;
+    await Product.findByIdAndDelete(productId);
+    res.status(200).json({ message: "Product deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting product", error });
+  }
+});
+
 // Route for adding a new product
-app.post("/api/products", upload.array("images", 5), 
+app.post("/add-product", upload.array("images", 5), 
 async (req, res) => {
   try {
     const { name, description, price, category, brand, stock, isFeatured } =

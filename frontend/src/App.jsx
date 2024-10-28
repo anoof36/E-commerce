@@ -14,15 +14,15 @@ import ProductsPage from "./pages/productsPage";
 import "./App.css";
 import Footer from "./components/common/footer";
 import Header from "./components/common/header";
-import AddProduct from "./admin/pages/addProduct";
+import ProductList from "./admin/pages/productsList";
 function App() {
   return (
     <>
       <Router>
         <Header />
         <Routes>
-          <Route path="/admin">
-            <Route path="AddProduct" element={<AddProduct />} />
+          <Route path="/admin" element={<RouterGuard />}>
+            <Route path="ProductsList" element={<ProductList />} />
           </Route>
           <Route path="/" element={<RouterGuard />}>
             <Route index element={<HomePage />} />

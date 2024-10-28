@@ -1,9 +1,13 @@
 import React, { useState } from "react";
-import axios from "axios"
+import axios from "axios";
+
+
+
+const apiUrl = import.meta.env.VITE_API_URL
 
 const AddProductForm = () => {
-  console.log("Add product page called")
-  const[productData, setProductData] = useState({
+  console.log("Add product page called");
+  const [productData, setProductData] = useState({
     name: "",
     description: "",
     price: 0,
@@ -48,15 +52,19 @@ const AddProductForm = () => {
     }
 
     try {
-      console.log("product data sented to backend")
-      
-      const response = await axios.post("http://localhost:8002/api/products", formData, {
-        header: {
-          "Content-Type": "multiple/form-data",
-        },
-      });
+      console.log("product data sented to backend");
+
+      const response = await axios.post(
+        `${apiUrl}/add-product`,
+        formData,
+        {
+          header: {
+            "Content-Type": "multiple/form-data",
+          },
+        }
+      );
       console.log(response.data); //handle the response
-      console.log("file Upload success")
+      console.log("file Upload success");
     } catch (error) {
       console.error(error.response.data.message);
     }
@@ -64,49 +72,54 @@ const AddProductForm = () => {
 
   return (
     <>
-      <form className="container" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Product Name"
-          onChange={handleChange}
-        />
-        <textarea
-          name="description"
-          placeholder="Description"
-          onChange={handleChange}
-        />
-        <input
-          type="number"
-          name="price"
-          placeholder="Price"
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="category"
-          placeholder="Category"
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="brand"
-          placeholder="Brand"
-          onChange={handleChange}
-        />
-        <input
-          type="number"
-          name="stock"
-          placeholder="Stock"
-          onChange={handleChange}
-        />
-        <input type="file" multiple onChange={handleFileChange} />
-        <label>
-          Is Featured:
-          <input type="checkbox" name="isFeatured" onChange={handleChange} />
-        </label>
-        <button className="btn btn-primary" type="submit">Add Product</button>
-      </form>
+      <div className="container">
+        <h1>create</h1>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="name"
+            placeholder="Product Name"
+            onChange={handleChange}
+          />
+          <textarea
+            name="description"
+            placeholder="Description"
+            onChange={handleChange}
+          />
+          <input
+            type="number"
+            name="price"
+            placeholder="Price"
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            name="category"
+            placeholder="Category"
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            name="brand"
+            placeholder="Brand"
+            onChange={handleChange}
+          />
+          <input
+            type="number"
+            name="stock"
+            placeholder="Stock"
+            onChange={handleChange}
+          />
+          <input type="file" multiple onChange={handleFileChange} />
+          <label>
+            Is Featured:
+            <input type="checkbox" name="isFeatured" onChange={handleChange} />
+          </label>
+          <button className="btn btn-primary" type="submit">
+            Add Product
+          </button>
+        </form>
+      </div>
     </>
   );
 };
