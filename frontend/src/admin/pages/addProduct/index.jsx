@@ -1,12 +1,20 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+const apiUrl = import.meta.env.VITE_API_URL;
 
+const AddProductForm = ({ onClose }) => {
 
-const apiUrl = import.meta.env.VITE_API_URL
+  //fake product data_______________________________________________________
+  const fakeProduct = {
+    name: "track pant",
+    description: "surplus",
+    price:550,
+    category: "Clothing",
+    brand: "zara",
+    stock: 12,
+  }
 
-const AddProductForm = () => {
-  console.log("Add product page called");
   const [productData, setProductData] = useState({
     name: "",
     description: "",
@@ -19,6 +27,7 @@ const AddProductForm = () => {
   });
 
   const [selectedFiles, setSelectedFiles] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("")
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -52,27 +61,22 @@ const AddProductForm = () => {
     }
 
     try {
-      console.log("product data sented to backend");
-
-      const response = await axios.post(
-        `${apiUrl}/add-product`,
-        formData,
-        {
-          header: {
-            "Content-Type": "multiple/form-data",
-          },
-        }
-      );
+      const response = await axios.post(`${apiUrl}/add-product`, formData, {
+        header: {
+          "Content-Type": "multiple/form-data",
+        },
+      });
       console.log(response.data); //handle the response
       console.log("file Upload success");
     } catch (error) {
       console.error(error.response.data.message);
+      setErrorMessage(error.response.data.message)
     }
   };
 
   return (
     <>
-      <div className="container">
+      <div className="container bg-light p-4 rounded-3">
         <h1>create</h1>
         <form onSubmit={handleSubmit}>
           <input
@@ -118,6 +122,11 @@ const AddProductForm = () => {
           <button className="btn btn-primary" type="submit">
             Add Product
           </button>
+
+          <button onClick={onClose} className="btn btn-danger">
+            close
+          </button>
+          {errorMessage && <p className="text-danger py-4">{errorMessage}</p>}
         </form>
       </div>
     </>

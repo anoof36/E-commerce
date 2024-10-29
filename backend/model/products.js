@@ -37,8 +37,13 @@ const productSchema = mongoose.Schema({
       url: {
         type: String,
         required: true,
+        default: '#',
       },
-      altText: String,
+      altText:{
+        type: String,
+        required: true,
+        default: 'no image found',
+      }
     },
   ],
   ratings: {
@@ -77,7 +82,6 @@ const productSchema = mongoose.Schema({
 
 // Middleware to update `updatedAt` on save
 productSchema.pre("save", function (next) {
-  console.log("i am product model")
   this.updatedAt = Date.now();
   next();
 });
