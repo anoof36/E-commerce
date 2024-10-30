@@ -4,16 +4,15 @@ import axios from "axios";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const AddProductForm = ({ onClose }) => {
-
   //fake product data_______________________________________________________
   const fakeProduct = {
     name: "track pant",
     description: "surplus",
-    price:550,
+    price: 550,
     category: "Clothing",
     brand: "zara",
     stock: 12,
-  }
+  };
 
   const [productData, setProductData] = useState({
     name: "",
@@ -27,7 +26,7 @@ const AddProductForm = ({ onClose }) => {
   });
 
   const [selectedFiles, setSelectedFiles] = useState(null);
-  const [errorMessage, setErrorMessage] = useState("")
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -42,36 +41,35 @@ const AddProductForm = ({ onClose }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("name", productData.name);
-    formData.append("description", productData.description);
-    formData.append("price", productData.price);
-    formData.append("category", productData.category);
-    formData.append("brand", productData.brand);
-    formData.append("stock", productData.stock);
-    formData.append("isFeatured", productData.isFeatured);
-
-    // add images to the formData
-    if (selectedFiles) {
-      for (let i = 0; i < selectedFiles.length; i++) {
-        formData.append("images", selectedFiles[i]);
-      }
-    }
-
     try {
-      const response = await axios.post(`${apiUrl}/add-product`, formData, {
+      e.preventDefault();
+
+      const formData = new FormData();
+      formData.append("name", productData.name);
+      formData.append("description", productData.description);
+      formData.append("price", productData.price);
+      formData.append("category", productData.category);
+      formData.append("brand", productData.brand);
+      formData.append("stock", productData.stock);
+      formData.append("isFeatured", productData.isFeatured);
+
+      // add images to the formData
+      if (selectedFiles) {
+        for (let i = 0; i < selectedFiles.length; i++) {
+          formData.append("images", selectedFiles[i]);
+        }
+      }
+      const response = await axios.post(`${apiUrl}/api/products/`, formData, {
         header: {
           "Content-Type": "multiple/form-data",
         },
       });
-      setErrorMessage("")
+      setErrorMessage("");
       console.log(response.data); //handle the response
       console.log("file Upload success");
     } catch (error) {
-      console.error(error.response.data.message);
-      setErrorMessage(error.response.data.message)
+      console.log(response)
+      setErrorMessage(error.response.data.message);
     }
   };
 

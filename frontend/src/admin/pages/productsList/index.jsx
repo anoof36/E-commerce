@@ -8,17 +8,23 @@ const ProductsList = () => {
   const [products, setProducts] = useState([]);
   const [showAddProduct, setShowAddProduct] = useState(false);
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/api/products/`);
+      setProducts(response.data);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    }
+  };
+
   useEffect(() => {
-    axios
-      .get(`${apiUrl}/product-list`)
-      .then((response) => setProducts(response.data))
-      .catch((error) => console.error("Error fetching products:", error));
+    fetchData()
   }, []);
 
   const handleDelete = async (productId) => {
     try {
       console.log("Deleting product with ID:", productId);
-      await axios.delete(`${apiUrl}/products/${productId}`);
+      await axios.delete(`${apiUrl}/api/products/${productId}`);
       // Update state to remove deleted product from the list
       setProducts(products.filter((product) => product._id !== productId));
       console.log("Product deleted successfully");
@@ -28,9 +34,10 @@ const ProductsList = () => {
   };
 
   const toggleAddProduct = () => {
+    fetchData()
     setShowAddProduct(!showAddProduct); // Toggle the visibility of AddProduct
   };
- console.log(products)
+
   return (
     <div className="w-100 vh-100 m-0 p-3">
       <h1 className="text-white">products List</h1>
@@ -55,13 +62,20 @@ const ProductsList = () => {
                 src={apiUrl + product.images[0].url}
                 alt={product.name}
                 className="card-img-top m-1"
-                style={{ width: "80px", height: "auto", boxSizing: "border-box" }}
+                style={{
+                  width: "80px",
+                  height: "auto",
+                  boxSizing: "border-box",
+                }}
               />
               <div className="card-body">
                 <h5 className="card-title">{product.name}</h5>
                 <p className="card-text">${product.price}</p>
                 <button className="btn btn-primary">View Product</button>{" "}
-                <button className="btn btn-danger" onClick={() => handleDelete(product._id)}>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleDelete(product._id)}
+                >
                   delete
                 </button>
               </div>
