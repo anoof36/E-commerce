@@ -37,6 +37,7 @@ const ProductsList = () => {
     fetchData()
     setShowAddProduct(!showAddProduct); // Toggle the visibility of AddProduct
   };
+  console.log(products.map(product => console.log(product.isFeatured)))
 
   return (
     <div className="w-100 vh-100 m-0 p-3">
@@ -71,7 +72,8 @@ const ProductsList = () => {
               <div className="card-body">
                 <h5 className="card-title">{product.name}</h5>
                 <p className="card-text">${product.price}</p>
-                <button className="btn btn-primary">View Product</button>{" "}
+                <p className="card-text">{product.category}</p>
+                <button className="btn btn-primary">Update product</button>{" "}
                 <button
                   className="btn btn-danger"
                   onClick={() => handleDelete(product._id)}

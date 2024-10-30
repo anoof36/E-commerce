@@ -28,13 +28,14 @@ const AddProductForm = ({ onClose }) => {
   const [selectedFiles, setSelectedFiles] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setProductData({
-      ...productData,
-      [name]: type === "checked" ? checked : value,
-    });
-  };
+    const handleChange = (e) => {
+      const { name, value, type, checked } = e.target;
+      
+      setProductData({
+        ...productData,
+        [name]: type === "checkbox" ? checked : value,
+      });
+    };
 
   const handleFileChange = (e) => {
     setSelectedFiles(e.target.files);
