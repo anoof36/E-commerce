@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AddProductForm from "../addProduct";
+import UpdateProduct from "../updateProduct";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const ProductsList = () => {
   const [products, setProducts] = useState([]);
   const [showAddProduct, setShowAddProduct] = useState(false);
+  const [showUpdatePage, setShowUpdatePage] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -18,7 +20,7 @@ const ProductsList = () => {
   };
 
   useEffect(() => {
-    fetchData()
+    fetchData();
   }, []);
 
   const handleDelete = async (productId) => {
@@ -33,15 +35,18 @@ const ProductsList = () => {
     }
   };
 
-  const toggleAddProduct = () => {
-    fetchData()
-    setShowAddProduct(!showAddProduct); // Toggle the visibility of AddProduct
+  const handleUpdatePage = () => {
+    setShowUpdatePage(!showUpdatePage);
   };
-  console.log(products.map(product => console.log(product.isFeatured)))
+
+  const toggleAddProduct = () => {
+    fetchData();
+    setShowAddProduct(!showAddProduct); // Toggle the visibility of AddProduct
+  };  
 
   return (
     <div className="w-100 vh-100 m-0 p-3">
-      <h1 className="text-white">products List</h1>
+      <h1>products List</h1>
       <div className="w-100 d-flex justify-content-end p-2">
         <button className="btn btn-success" onClick={toggleAddProduct}>
           create
@@ -52,6 +57,11 @@ const ProductsList = () => {
       {showAddProduct && (
         <div className="position-absolute z-3 top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center">
           <AddProductForm onClose={toggleAddProduct} />
+        </div>
+      )}
+      {showUpdatePage && (
+        <div className="position-absolute z-3 top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center">
+          <UpdateProduct onClose={handleUpdatePage} />
         </div>
       )}
 
@@ -73,7 +83,10 @@ const ProductsList = () => {
                 <h5 className="card-title">{product.name}</h5>
                 <p className="card-text">${product.price}</p>
                 <p className="card-text">{product.category}</p>
-                <button className="btn btn-primary">Update product</button>{" "}
+                <button className="btn btn-primary" onClick={handleUpdatePage}>
+                  Update product
+                </button>
+
                 <button
                   className="btn btn-danger"
                   onClick={() => handleDelete(product._id)}

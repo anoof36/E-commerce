@@ -1,8 +1,7 @@
 import Product from "../model/products.js";
 import upload from "../config/multer.js"
 import { reqValidation } from "../middleWeres/validation.js";
-import fs from "fs";
-import path from "path";
+import { deleteFile } from "../utils/fileHandlers.js";
 
 // FOR UPDATING PRODUCT -----------------------------------------------------
 export const updateProduct = async (req, res, next) => {
@@ -100,9 +99,8 @@ export const deleteProduct = async (req, res) => {
     }
 
     // Delete the image from the filesystem
-    const imagePath = path.join(__dirname, product.images[0].url); // Adjust based on how you're storing URLs
-    fs.unlink(imagePath, () => console.log("delete success"));
-
+    deleteFile(product.images[0].url)
+    
     // Delete the product from the database
     await Product.findByIdAndDelete(productId);
     res.status(200).json({ message: "Product deleted successfully" });

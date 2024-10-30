@@ -21,6 +21,7 @@ const AddProductForm = ({ onClose }) => {
 
     const handleChange = (e) => {
       const { name, value, type, checked } = e.target;
+      
       setProductData({
         ...productData,
         [name]: type === "checkbox" ? checked : value,
@@ -67,7 +68,7 @@ const AddProductForm = ({ onClose }) => {
   return (
     <>
       <div className="container bg-light p-4 rounded-3">
-        <h1>create</h1>
+        <h1>update product</h1>
         <form onSubmit={handleSubmit}>
           <input
             type="text"

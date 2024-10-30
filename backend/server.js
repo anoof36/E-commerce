@@ -3,7 +3,7 @@ import cors from "cors";
 import "dotenv/config";
 import dbConnect from "./config/mongoose.js";
 import productRouter from "./routes/productRoutes.js"
-import { errorHandler } from "./middleWeres/errorHandler.js";
+import { errorHandler } from "./utils/errorHandler.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
