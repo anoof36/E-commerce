@@ -88,13 +88,12 @@ app.post("/add-product", async (req, res, next) => {
   uploadMiddleware(req, res, async (err) => {
     if (err || req.files.length == 0) {
       // Handle any errors from the upload middleware
-      return res.status(500).json({ message:`file upload failed ${err.message}`, error: err.message });
+      const errorMessage = err?.message || "image not found"
+      return res.status(500).json({ message: errorMessage });
     }
 
     try {
       const { name, description, price, category, brand, stock, isFeatured } = req.body;
-      console.log("Form data:", req.body); // Logs your text fields
-      console.log("File data:", req.files); // Logs the array of uploaded files, if any
 
       // Map images only if files are provided
       const images = req.files ? req.files.map((file) => ({

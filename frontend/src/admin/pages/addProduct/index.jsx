@@ -66,6 +66,7 @@ const AddProductForm = ({ onClose }) => {
           "Content-Type": "multiple/form-data",
         },
       });
+      setErrorMessage("")
       console.log(response.data); //handle the response
       console.log("file Upload success");
     } catch (error) {
