@@ -42,7 +42,7 @@ const ProductsList = () => {
   const toggleAddProduct = () => {
     fetchData();
     setShowAddProduct(!showAddProduct); // Toggle the visibility of AddProduct
-  };  
+  };
 
   return (
     <div className="w-100 vh-100 m-0 p-3">
@@ -54,20 +54,20 @@ const ProductsList = () => {
       </div>
 
       {/* Conditionally render AddProduct component */}
+
       {showAddProduct && (
         <div className="position-absolute z-3 top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center">
           <AddProductForm onClose={toggleAddProduct} />
         </div>
       )}
-      {showUpdatePage && (
-        <div className="position-absolute z-3 top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center">
-          <UpdateProduct onClose={handleUpdatePage} />
-        </div>
-      )}
-
       <div className="row">
         {products.map((product) => (
           <div key={product._id} className="col-sm-6 col-md-4 mb-4">
+            {showUpdatePage && (
+              <div className="position-absolute z-3 top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center">
+                <UpdateProduct onClose={handleUpdatePage} product={product} />
+              </div>
+            )}{" "}
             <div className="card">
               <img
                 src={apiUrl + product.images[0].url}
@@ -83,8 +83,11 @@ const ProductsList = () => {
                 <h5 className="card-title">{product.name}</h5>
                 <p className="card-text">${product.price}</p>
                 <p className="card-text">{product.category}</p>
-                <button className="btn btn-primary" onClick={handleUpdatePage}>
-                  Update product
+                <button
+                  className="btn btn-primary m-1"
+                  onClick={handleUpdatePage}
+                >
+                  Edit
                 </button>
 
                 <button

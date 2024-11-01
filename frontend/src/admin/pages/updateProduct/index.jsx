@@ -3,30 +3,22 @@ import axios from "axios";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-const AddProductForm = ({ onClose }) => {
- 
+const AddProductForm = ({ onClose, product }) => {
   const [productData, setProductData] = useState({
-    name: "",
-    description: "",
-    price: 0,
-    category: "",
-    brand: "",
-    stock: 0,
-    image: [], // to handle multiple images
-    isFeatured: false,
+    ...product,
   });
 
   const [selectedFiles, setSelectedFiles] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
-    const handleChange = (e) => {
-      const { name, value, type, checked } = e.target;
-      
-      setProductData({
-        ...productData,
-        [name]: type === "checkbox" ? checked : value,
-      });
-    };
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    setProductData({
+      ...productData,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
 
   const handleFileChange = (e) => {
     setSelectedFiles(e.target.files);
@@ -60,7 +52,7 @@ const AddProductForm = ({ onClose }) => {
       console.log(response.data); //handle the response
       console.log("file Upload success");
     } catch (error) {
-      console.log(response)
+      console.log(response);
       setErrorMessage(error.response.data.message);
     }
   };
@@ -75,40 +67,50 @@ const AddProductForm = ({ onClose }) => {
             name="name"
             placeholder="Product Name"
             onChange={handleChange}
+            value={productData.name}
           />
           <textarea
             name="description"
             placeholder="Description"
             onChange={handleChange}
+            value={productData.description}
           />
           <input
             type="number"
             name="price"
             placeholder="Price"
             onChange={handleChange}
+            value={productData.price}
           />
           <input
             type="text"
             name="category"
             placeholder="Category"
             onChange={handleChange}
+            value={productData.category}
           />
           <input
             type="text"
             name="brand"
             placeholder="Brand"
             onChange={handleChange}
+            value={productData.brand}
           />
           <input
             type="number"
             name="stock"
             placeholder="Stock"
             onChange={handleChange}
+            value={productData.stock}
           />
           <input type="file" multiple onChange={handleFileChange} />
           <label>
             Is Featured:
-            <input type="checkbox" name="isFeatured" onChange={handleChange} />
+            <input
+              type="checkbox"
+              isFeatured="isFeatured"
+              onChange={handleChange}
+            />
           </label>
           <button className="btn btn-primary" type="submit">
             Add Product
