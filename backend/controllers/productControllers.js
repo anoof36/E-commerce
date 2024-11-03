@@ -4,29 +4,15 @@ import { reqValidation } from "../middleWeres/validation.js";
 import { deleteFile } from "../utils/fileHandlers.js";
 
 // FOR UPDATING PRODUCT -----------------------------------------------------
-export const updateProduct = async (req, res, next) => {
-  const productId = req.params.id;
+export const updateItem = async (req, res, next) => {
   const updates = req.body;
+  console.log("getting the update call: ",updates)
 
-  try {
-    reqValidation(updates); // Validate the updates
-
-    const updatedProduct = await Product.findByIdAndUpdate(productId, updates, { new: true, runValidators: true });
-
-    if (!updatedProduct) {
-      const error = new Error("product not found");
-      error.statusCode = 404;
-      return next(error)
-    }
-    res.status(200).json({ message: 'Product updated successfully', updatedProduct });
-  } catch (error) {
-    next(error); // Pass the error to the error handling middleware
-  }
 }
 
 
 // FOR ADDING A PRODUCT-------------------------------------------------------
-export const addProduct = async (req, res, next) => {
+export const addItem = async (req, res, next) => {
   // Only call the upload middleware if there are files to upload
   const uploadMiddleware = upload.array("images", 5);
 
@@ -72,7 +58,7 @@ export const addProduct = async (req, res, next) => {
 };
 
 // FOR FETCHING ALL THE PRODUCT DEATIALS -------------------------------------------------------------
-export const getProducts = async (req, res) => {
+export const getItems = async (req, res) => {
   try {
     // Fetch all products from the database
     const products = await Product.find(); // `.find()` without arguments fetches all records
@@ -88,7 +74,7 @@ export const getProducts = async (req, res) => {
 };
 
 // FOR DELETING ONE PRODUCT ------------------------------------------------
-export const deleteProduct = async (req, res) => {
+export const deleteItem = async (req, res) => {
   try {
     const productId = req.params.id;
 

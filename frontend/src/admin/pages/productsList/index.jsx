@@ -9,6 +9,7 @@ const ProductsList = () => {
   const [products, setProducts] = useState([]);
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [showUpdatePage, setShowUpdatePage] = useState(false);
+  const [productToUpdate, setProductToUpdate] = useState({})
 
   const fetchData = async () => {
     try {
@@ -35,16 +36,23 @@ const ProductsList = () => {
     }
   };
 
-  const handleUpdatePage = () => {
-    setShowUpdatePage(!showUpdatePage);
+  const handleUpdatePage = (product) => {
+    setProductToUpdate(product);
+    setShowUpdatePage(prev => !prev)
   };
 
+
+    //method 1
   const toggleAddProduct = () => {
     fetchData();
     setShowAddProduct(!showAddProduct); // Toggle the visibility of AddProduct
   };
-
-  console.log("products", products)
+  
+  //method 2
+  const closeToggle = (close) => {
+    fetchData()
+    close(prev => !prev)
+  } 
 
   return (
     <div className="w-100 vh-100 m-0 p-3">
@@ -54,22 +62,20 @@ const ProductsList = () => {
           create
         </button>
       </div>
-
       {/* Conditionally render AddProduct component */}
-
       {showAddProduct && (
         <div className="position-absolute z-3 top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center">
-          <AddProductForm onClose={toggleAddProduct} />
+          <AddProductForm onClose={() => closeToggle(setShowAddProduct)} />
         </div>
       )}
+      {showUpdatePage && (
+        <div className="position-absolute z-3 top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center">
+          <UpdateProduct onClose={() => closeToggle(setShowUpdatePage)} product={productToUpdate} />
+        </div>
+      )}{" "}
       <div className="row">
         {products.map((product) => (
           <div key={product._id} className="col-sm-6 col-md-4 mb-4">
-            {showUpdatePage && (
-              <div className="position-absolute z-3 top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center">
-                <UpdateProduct onClose={handleUpdatePage} product={product} />
-              </div>
-            )}{" "}
             <div className="card">
               <img
                 src={apiUrl + product.images[0].url}
@@ -87,7 +93,7 @@ const ProductsList = () => {
                 <p className="card-text">{product.category}</p>
                 <button
                   className="btn btn-primary m-1"
-                  onClick={handleUpdatePage}
+                  onClick={() => handleUpdatePage(product)}
                 >
                   Edit
                 </button>

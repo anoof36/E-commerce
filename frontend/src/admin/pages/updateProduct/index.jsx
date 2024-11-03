@@ -42,10 +42,10 @@ const AddProductForm = ({ onClose, product }) => {
           formData.append("images", selectedFiles[i]);
         }
       }
-
-      const response = await axios.post(`${apiUrl}/api/products/`, formData, {
+      console.log("form sented sucess :", productData)
+      const response = await axios.put(`${apiUrl}/api/products/`, formData, {
         header: {
-          "Content-Type": "multiple/form-data",
+          "Content-Type": "multipart/form-data",
         },
       });
       setErrorMessage("");
@@ -57,7 +57,6 @@ const AddProductForm = ({ onClose, product }) => {
     }
   };
 
-  console.log(product.name)
   return (
     <>
       <div className="container bg-light p-4 rounded-3">
@@ -128,10 +127,15 @@ const AddProductForm = ({ onClose, product }) => {
 
           <label>
             Is Featured:
-            <input type="checkbox" name="isFeatured" onChange={handleChange} />
+            <input
+              type="checkbox"
+              name="isFeatured"
+              checked={productData.isFeatured || false}
+              onChange={handleChange}
+            />
           </label>
           <button className="btn btn-primary" type="submit">
-            Add Product
+            update Product
           </button>
 
           <button onClick={onClose} className="btn btn-danger">
