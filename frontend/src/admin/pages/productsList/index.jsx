@@ -44,6 +44,8 @@ const ProductsList = () => {
     setShowAddProduct(!showAddProduct); // Toggle the visibility of AddProduct
   };
 
+  console.log("products", products)
+
   return (
     <div className="w-100 vh-100 m-0 p-3">
       <h1>products List</h1>

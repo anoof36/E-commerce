@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const AddProductForm = ({ onClose, product }) => {
@@ -43,6 +42,7 @@ const AddProductForm = ({ onClose, product }) => {
           formData.append("images", selectedFiles[i]);
         }
       }
+
       const response = await axios.post(`${apiUrl}/api/products/`, formData, {
         header: {
           "Content-Type": "multiple/form-data",
@@ -57,6 +57,7 @@ const AddProductForm = ({ onClose, product }) => {
     }
   };
 
+  console.log(product.name)
   return (
     <>
       <div className="container bg-light p-4 rounded-3">
@@ -104,13 +105,30 @@ const AddProductForm = ({ onClose, product }) => {
             value={productData.stock}
           />
           <input type="file" multiple onChange={handleFileChange} />
+          {selectedFiles ? (
+            <>
+              {Array.from(selectedFiles).map((file, index) => (
+                <img
+                  key={index}
+                  src={URL.createObjectURL(file)}
+                  alt="New Preview"
+                  style={{ width: "100px", height: "auto", margin: "5px" }}
+                />
+              ))}
+            </>
+          ) : (
+            <>
+              <img
+                style={{ width: "100px", height: "auto" }}
+                src={apiUrl + product.images[0].url}
+                alt="product image "
+              />
+            </>
+          )}
+
           <label>
             Is Featured:
-            <input
-              type="checkbox"
-              isFeatured="isFeatured"
-              onChange={handleChange}
-            />
+            <input type="checkbox" name="isFeatured" onChange={handleChange} />
           </label>
           <button className="btn btn-primary" type="submit">
             Add Product
