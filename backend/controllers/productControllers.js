@@ -1,15 +1,21 @@
 import Product from "../model/products.js";
-import upload from "../config/multer.js"
+import upload from "../config/multer.js";
 import { reqValidation } from "../middleWeres/validation.js";
 import { deleteFile } from "../utils/fileHandlers.js";
 
 // FOR UPDATING PRODUCT -----------------------------------------------------
-export const updateItem = async (req, res, next) => {
-  const updates = req.body;
-  console.log("getting the update call: ",updates)
-
-}
-
+export const updateItem = async(req, res, next) => {
+  try{
+    
+      console.log(req.file)
+  }
+  catch(err) {
+    res.status(500).json({
+      message: "server error",
+      error: err
+    })
+  }
+};
 
 // FOR ADDING A PRODUCT-------------------------------------------------------
 export const addItem = async (req, res, next) => {
@@ -24,6 +30,7 @@ export const addItem = async (req, res, next) => {
     }
 
     try {
+      console.log(req.body)
       const { name, description, price, category, brand, stock, isFeatured } =
         req.body;
 
@@ -85,8 +92,8 @@ export const deleteItem = async (req, res) => {
     }
 
     // Delete the image from the filesystem
-    deleteFile(product.images[0].url)
-    
+    deleteFile(product.images[0].url);
+
     // Delete the product from the database
     await Product.findByIdAndDelete(productId);
     res.status(200).json({ message: "Product deleted successfully" });

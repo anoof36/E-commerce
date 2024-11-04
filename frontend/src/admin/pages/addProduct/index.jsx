@@ -51,8 +51,8 @@ const AddProductForm = ({ onClose }) => {
         }
       }
       const response = await axios.post(`${apiUrl}/api/products/`, formData, {
-        header: {
-          "Content-Type": "multiple/form-data",
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
       });
       setErrorMessage("");
@@ -105,6 +105,7 @@ const AddProductForm = ({ onClose }) => {
             onChange={handleChange}
           />
           <input type="file" multiple onChange={handleFileChange} />
+          <img src="" style={{width:"100px", height:"auto"}} alt="" />
           <label>
             Is Featured:
             <input type="checkbox" name="isFeatured" onChange={handleChange} />

@@ -42,18 +42,21 @@ const AddProductForm = ({ onClose, product }) => {
           formData.append("images", selectedFiles[i]);
         }
       }
-      console.log("form sented sucess :", productData)
-      const response = await axios.put(`${apiUrl}/api/products/`, formData, {
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
+
+      const response = await axios.put(`${apiUrl}/api/products/update`, formData, {
         header: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "multiple/form-data",
         },
       });
       setErrorMessage("");
       console.log(response.data); //handle the response
       console.log("file Upload success");
     } catch (error) {
-      console.log(response);
-      setErrorMessage(error.response.data.message);
+      console.log(error.response); // Log the error response if available
+      setErrorMessage(error.response?.data?.message || "An error occurred");
     }
   };
 
@@ -138,7 +141,7 @@ const AddProductForm = ({ onClose, product }) => {
             update Product
           </button>
 
-          <button onClick={onClose} className="btn btn-danger">
+          <button onClick={(e) => { e.preventDefault(); onClose(); }} className="btn btn-danger">
             close
           </button>
           {errorMessage && <p className="text-danger py-4">{errorMessage}</p>}

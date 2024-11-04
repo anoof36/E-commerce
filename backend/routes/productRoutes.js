@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import * as product from "../controllers/productControllers.js"
+import upload from "../config/multer.js";
 
 const router = express.Router();
 
@@ -18,6 +19,6 @@ router.delete("/:id", product.deleteItem);
 router.post("/", product.addItem);
 
 // Route for updating product by ID
-router.put("/", product.updateItem);
+router.put("/update", product.updateItem);
 
 export default router;
