@@ -2,7 +2,6 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import * as product from "../controllers/productControllers.js"
-import upload from "../config/multer.js";
 
 const router = express.Router();
 

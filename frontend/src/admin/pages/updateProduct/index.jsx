@@ -7,7 +7,7 @@ const AddProductForm = ({ onClose, product }) => {
     ...product,
   });
 
-  const [selectedFiles, setSelectedFiles] = useState(null);
+  const [selectedFiles, setSelectedFiles] = useState();
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
@@ -35,6 +35,8 @@ const AddProductForm = ({ onClose, product }) => {
       formData.append("brand", productData.brand);
       formData.append("stock", productData.stock);
       formData.append("isFeatured", productData.isFeatured);
+      formData.append("prevImage", product.images[0].url)
+      formData.append("_id", productData._id)
 
       // add images to the formData
       if (selectedFiles) {

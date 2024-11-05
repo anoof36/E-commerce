@@ -59,8 +59,8 @@ const AddProductForm = ({ onClose }) => {
       console.log(response.data); //handle the response
       console.log("file Upload success");
     } catch (error) {
-      console.log(response)
-      setErrorMessage(error.response.data.message);
+      console.log(error?.response)
+      setErrorMessage(error?.response?.data?.message);
     }
   };
 

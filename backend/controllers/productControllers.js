@@ -4,17 +4,59 @@ import { reqValidation } from "../middleWeres/validation.js";
 import { deleteFile } from "../utils/fileHandlers.js";
 
 // FOR UPDATING PRODUCT -----------------------------------------------------
-export const updateItem = async(req, res, next) => {
-  try{
-    
-      console.log(req.file)
-  }
-  catch(err) {
-    res.status(500).json({
-      message: "server error",
-      error: err
-    })
-  }
+export const updateItem = async (req, res, next) => {
+  // Only call the upload middleware if there are files to upload
+  const uploadMiddleware = upload.array("images", 5);
+
+  uploadMiddleware(req, res, async (err) => {
+    const updatedProduct = req.body;
+
+    if (err) {
+      // Handle any errors from the upload middleware
+      const errorMessage = err?.message || "image not found";
+      return res.status(400).json({ message: errorMessage });
+    }
+
+    // Delete previous image if new files are uploaded
+    if (req.files.length !== 0) {
+      // delete previous image from the storage
+      deleteFile(updatedProduct.prevImage, (err) => {
+        if (err) {
+          console.error("Error deleting previous image:", err);
+        } else {
+          console.log("Previous image delete successful");
+        }
+      });
+
+      // Update the image paths in the product if new images were uploaded
+      const newImagePaths = req.files.map((file) => file.path);
+      updatedProduct.images = newImagePaths;
+      console.log("updatedProduct.images", updatedProduct);
+    }
+
+    try {
+      // Find the product by ID and update it with new data
+      const updated = await Product.findByIdAndUpdate(
+        updatedProduct._id,
+        updatedProduct,
+        { new: true } // Return the updated document
+      );
+
+      if (!updated) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+
+      res.status(200).json({
+        message: "Product updated successfully",
+        product: updated,
+      });
+    } catch (err) {
+      res.status(500).json({
+        message: `product adding faild ${(err.message, err)}`,
+        error: err.message,
+      });
+    }
+  });
 };
 
 // FOR ADDING A PRODUCT-------------------------------------------------------
@@ -30,7 +72,6 @@ export const addItem = async (req, res, next) => {
     }
 
     try {
-      console.log(req.body)
       const { name, description, price, category, brand, stock, isFeatured } =
         req.body;
 
