@@ -19,7 +19,8 @@ export const updateItem = async (req, res, next) => {
 
     // Delete previous image if new files are uploaded
     if (req.files.length !== 0) {
-      // delete previous image from the storage
+      // delete previous image from the storagec
+      console.log("updatedProduct.prevImage", updatedProduct.prevImage)
       deleteFile(updatedProduct.prevImage, (err) => {
         if (err) {
           console.error("Error deleting previous image:", err);
@@ -29,12 +30,17 @@ export const updateItem = async (req, res, next) => {
       });
 
       // Update the image paths in the product if new images were uploaded
-      const newImagePaths = req.files.map((file) => file.path);
+      const newImagePaths = req.files.map((file) => ({
+        url: file.path,
+        altText: file.originalname, // or any other alt text you want
+      }));
       updatedProduct.images = newImagePaths;
+
       console.log("updatedProduct.images", updatedProduct);
     }
 
     try {
+      console.log("updatedProduct", updatedProduct)
       // Find the product by ID and update it with new data
       const updated = await Product.findByIdAndUpdate(
         updatedProduct._id,
