@@ -9,18 +9,16 @@ const ProductsList = () => {
   const [products, setProducts] = useState([]);
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [showUpdatePage, setShowUpdatePage] = useState(false);
-  const [productToUpdate, setProductToUpdate] = useState({})
+  const [productToUpdate, setProductToUpdate] = useState({});
 
   const fetchData = async () => {
-  
-    try { 
+    try {
       const response = await axios.get(`${apiUrl}/api/products/`);
       setProducts(response.data);
     } catch (err) {
       console.error("Error fetching data:", err);
     }
   };
- 
 
   useEffect(() => {
     fetchData();
@@ -31,26 +29,28 @@ const ProductsList = () => {
       await axios.delete(`${apiUrl}/api/products/${productId}`);
       // Update state to remove deleted product from the list
       setProducts(products.filter((product) => product._id !== productId));
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const handleUpdatePage = (product) => {
     setProductToUpdate(product);
-    setShowUpdatePage(prev => !prev)
+    setShowUpdatePage((prev) => !prev);
   };
 
-// controling toggle
+  // controling toggle
   const Toggle = (setter) => {
-    fetchData()
-    setter(prev => !prev)
-  } 
+    fetchData();
+    setter((prev) => !prev);
+  };
 
   return (
     <div className="w-100 m-0 p-3">
       <h1>products List</h1>
       <div className="w-100 d-flex justify-content-end p-2">
-        <button className="btn btn-success" onClick={() => Toggle(setShowAddProduct)}>
+        <button
+          className="btn btn-success"
+          onClick={() => Toggle(setShowAddProduct)}
+        >
           create
         </button>
       </div>
@@ -62,7 +62,10 @@ const ProductsList = () => {
       )}
       {showUpdatePage && (
         <div className="position-absolute z-3 top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center">
-          <UpdateProduct onClose={() => Toggle(setShowUpdatePage)} product={productToUpdate} />
+          <UpdateProduct
+            onClose={() => Toggle(setShowUpdatePage)}
+            product={productToUpdate}
+          />
         </div>
       )}{" "}
       <div className="row">
@@ -80,9 +83,20 @@ const ProductsList = () => {
                 }}
               />
               <div className="card-body">
-                <h5 className="card-title">{product.name}</h5>
-                <p className="card-text">${product.price}</p>
-                <p className="card-text">{product.category}</p>
+                {Object.entries(product).map(
+                  ([key, value]) =>
+                    // Skip unwanted fields if necessary
+                    key !== "_id" &&
+                    key !== "images" &&
+                    key !== "ratings" && (
+                      <p className="card-text" key={key}>
+                        <strong>
+                          {key.charAt(0).toUpperCase() + key.slice(1)}:
+                        </strong>{" "}
+                        {value}
+                      </p>
+                    )
+                )}
                 <button
                   className="btn btn-primary m-1"
                   onClick={() => handleUpdatePage(product)}

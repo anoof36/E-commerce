@@ -127,7 +127,6 @@ const AddProductForm = ({ onClose, product }) => {
             name="images"
             multiple
             onChange={handleFileChange}
-            required
           />
           {selectedFiles ? (
             <>
