@@ -7,11 +7,9 @@ const RouterGuard = () => {
       className="mx-auto" 
         style={{
           maxWidth: "1200px",
-          minHeight: "100vh",
           paddingTop: "2rem", 
           color: "black",
           width: "100dvw",
-          height: "auto",
           display: "flex",
         }}
       >

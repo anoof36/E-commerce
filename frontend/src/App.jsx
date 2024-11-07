@@ -22,7 +22,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/admin" element={<RouterGuard />}>
-            <Route path="ProductsList" element={<ProductList />} />
+            <Route index element={<ProductList />} />
           </Route>
           <Route path="/" element={<RouterGuard />}>
             <Route index element={<HomePage />} />
@@ -30,8 +30,8 @@ function App() {
             <Route path="/products" element={<ProductsPage />} />
           </Route>
         </Routes>
-        <Footer />
       </Router>
+      <Footer />
     </>
   );
 }

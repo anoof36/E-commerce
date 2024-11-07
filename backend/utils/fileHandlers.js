@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 const __parentDir = path.dirname(__dirname);
 
 //deleting files
-export const deleteFile = (pathToFile, cb) => {
+export const deleteFile = (pathToFile, cb = ()=> {}) => {
   const imagePath = path.join(__parentDir, pathToFile);
   if (!fs.existsSync(imagePath)) {
     console.log("File not found:", imagePath);
@@ -22,7 +22,7 @@ export const deleteFile = (pathToFile, cb) => {
       cb(err);
     } else {
       console.log("Delete success");
-      cb(); // Callback without error if successful
+      cb(err); // Callback without error if successful
     }
   });
 };

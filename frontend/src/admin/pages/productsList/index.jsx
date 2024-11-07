@@ -12,13 +12,15 @@ const ProductsList = () => {
   const [productToUpdate, setProductToUpdate] = useState({})
 
   const fetchData = async () => {
-    try {
+  
+    try { 
       const response = await axios.get(`${apiUrl}/api/products/`);
       setProducts(response.data);
     } catch (err) {
       console.error("Error fetching data:", err);
     }
   };
+ 
 
   useEffect(() => {
     fetchData();
@@ -26,13 +28,10 @@ const ProductsList = () => {
 
   const handleDelete = async (productId) => {
     try {
-      console.log("Deleting product with ID:", productId);
       await axios.delete(`${apiUrl}/api/products/${productId}`);
       // Update state to remove deleted product from the list
       setProducts(products.filter((product) => product._id !== productId));
-      console.log("Product deleted successfully");
     } catch (error) {
-      console.error("Error deleting product:", error);
     }
   };
 
@@ -41,36 +40,29 @@ const ProductsList = () => {
     setShowUpdatePage(prev => !prev)
   };
 
-
-    //method 1
-  const toggleAddProduct = () => {
-    fetchData();
-    setShowAddProduct(!showAddProduct); // Toggle the visibility of AddProduct
-  };
-  
-  //method 2
-  const closeToggle = (close) => {
+// controling toggle
+  const Toggle = (setter) => {
     fetchData()
-    close(prev => !prev)
+    setter(prev => !prev)
   } 
 
   return (
-    <div className="w-100 vh-100 m-0 p-3">
+    <div className="w-100 m-0 p-3">
       <h1>products List</h1>
       <div className="w-100 d-flex justify-content-end p-2">
-        <button className="btn btn-success" onClick={toggleAddProduct}>
+        <button className="btn btn-success" onClick={() => Toggle(setShowAddProduct)}>
           create
         </button>
       </div>
       {/* Conditionally render AddProduct component */}
       {showAddProduct && (
         <div className="position-absolute z-3 top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center">
-          <AddProductForm onClose={() => closeToggle(setShowAddProduct)} />
+          <AddProductForm onClose={() => Toggle(setShowAddProduct)} />
         </div>
       )}
       {showUpdatePage && (
         <div className="position-absolute z-3 top-0 start-0 w-100 h-100 bg-dark bg-opacity-50 d-flex align-items-center justify-content-center">
-          <UpdateProduct onClose={() => closeToggle(setShowUpdatePage)} product={productToUpdate} />
+          <UpdateProduct onClose={() => Toggle(setShowUpdatePage)} product={productToUpdate} />
         </div>
       )}{" "}
       <div className="row">

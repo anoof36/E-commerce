@@ -4,7 +4,6 @@ import axios from "axios";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const AddProductForm = ({ onClose }) => {
- 
   const [productData, setProductData] = useState({
     name: "",
     description: "",
@@ -17,15 +16,17 @@ const AddProductForm = ({ onClose }) => {
   });
 
   const [selectedFiles, setSelectedFiles] = useState(null);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [message, setMessage] = useState({});
 
-    const handleChange = (e) => {
-      const { name, value, type, checked } = e.target;
-      setProductData({
-        ...productData,
-        [name]: type === "checkbox" ? checked : value,
-      });
-    };
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setProductData({
+      ...productData,
+      [name]: type === "checkbox" ? checked : value,
+    });
+
+    setMessage({ status: "", text: "" });
+  };
 
   const handleFileChange = (e) => {
     setSelectedFiles(e.target.files);
@@ -55,12 +56,12 @@ const AddProductForm = ({ onClose }) => {
           "Content-Type": "multipart/form-data",
         },
       });
-      setErrorMessage("");
-      console.log(response.data); //handle the response
-      console.log("file Upload success");
+      setMessage({ status: "text-success", text: "product added successfuly" });
     } catch (error) {
-      console.log(error?.response)
-      setErrorMessage(error?.response?.data?.message);
+      setMessage({
+        status: "text-danger",
+        text: error?.response?.data?.message,
+      });
     }
   };
 
@@ -74,38 +75,70 @@ const AddProductForm = ({ onClose }) => {
             name="name"
             placeholder="Product Name"
             onChange={handleChange}
+            required
           />
           <textarea
             name="description"
             placeholder="Description"
             onChange={handleChange}
+            required
           />
           <input
             type="number"
             name="price"
             placeholder="Price"
             onChange={handleChange}
+            required
           />
-          <input
-            type="text"
+          <select
             name="category"
-            placeholder="Category"
             onChange={handleChange}
-          />
+            required
+            defaultValue=""
+          >
+            <option value="" disabled>
+              Select Category
+            </option>
+            <option value="Electronics">Electronics</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Furniture">Furniture</option>
+            <option value="Toys">Toys</option>
+            <option value="Books">Books</option>
+            <option value="Other">Other</option>
+          </select>
           <input
             type="text"
             name="brand"
             placeholder="Brand"
             onChange={handleChange}
+            required
           />
           <input
             type="number"
             name="stock"
             placeholder="Stock"
             onChange={handleChange}
+            required
           />
-          <input type="file" multiple onChange={handleFileChange} />
-          <img src="" style={{width:"100px", height:"auto"}} alt="" />
+          <input
+            type="file"
+            name="images"
+            multiple
+            onChange={handleFileChange}
+            required
+          />
+          {selectedFiles && (
+            <div className="image-previews">
+              {Array.from(selectedFiles).map((file, index) => (
+                <img
+                  key={index}
+                  src={URL.createObjectURL(file)}
+                  alt="Preview"
+                  style={{ width: "200px", height: "auto", margin: "5px" }}
+                />
+              ))}
+            </div>
+          )}
           <label>
             Is Featured:
             <input type="checkbox" name="isFeatured" onChange={handleChange} />
@@ -117,7 +150,7 @@ const AddProductForm = ({ onClose }) => {
           <button onClick={onClose} className="btn btn-danger">
             close
           </button>
-          {errorMessage && <p className="text-danger py-4">{errorMessage}</p>}
+          {message && <p className={`${message.status}`}>{message.text}</p>}
         </form>
       </div>
     </>

@@ -2,9 +2,83 @@ import Product from "../model/products.js";
 import upload from "../config/multer.js";
 import { reqValidation } from "../middleWeres/validation.js";
 import { deleteFile } from "../utils/fileHandlers.js";
+import mongoose from "mongoose";
+
+export const updateItem = async (req, res, next) => {
+  const uploadMiddleware = upload.array("images", 5);
+
+  uploadMiddleware(req, res, async (err) => {
+    if (err) {
+      return res
+        .status(400)
+        .json({ message: err?.message || "Image upload failed" });
+    }
+
+    const { _id, prevImage, ...updatedFields } = req.body;
+    if (!_id)
+      return res.status(400).json({ message: "Product ID is required" });
+
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    try {
+      // Step 1: Check if images need updating and handle old image deletion
+      if (req.files && req.files.length > 0) {
+        if (prevImage) {
+          // Delete previous image only if new files are uploaded
+          deleteFile(prevImage, (deleteErr) => {
+            if (deleteErr)
+              console.error("Error deleting previous image:", deleteErr);
+          });
+        }
+        updatedFields.images = req.files
+          ? req.files.map((file) => ({
+              url: `/uploads/images/${file.filename}`,
+              altText: file.originalname || "Image",
+            }))
+          : [];
+      }
+
+      // Step 2: Validate `updatedFields` with a model instance to enforce schema compliance
+      const temporaryProduct = new Product(updatedFields);
+      await temporaryProduct.validate(); // Validate schema without saving
+
+      // Step 3: Apply atomic update with only specified fields
+      const updatedProduct = await Product.findByIdAndUpdate(
+        _id,
+        {
+          $set: updatedFields,
+          $currentDate: { updatedAt: true },
+        },
+        { new: true, runValidators: true, session } // Apply session for transaction
+      );
+
+      if (!updatedProduct) {
+        throw new Error("Product not found");
+      }
+
+      await session.commitTransaction(); // Commit changes if all went well
+      session.endSession();
+
+      res.status(200).json({
+        message: "Product updated successfully",
+        product: updatedProduct,
+      });
+    } catch (error) {
+      await session.abortTransaction(); // Roll back any changes if there’s an error
+      session.endSession();
+
+      console.error("Update failed:", error); // Log for debugging
+      res.status(500).json({
+        message: "Product update failed",
+        error: error.message,
+      });
+    }
+  });
+};
 
 // FOR UPDATING PRODUCT -----------------------------------------------------
-export const updateItem = async (req, res, next) => {
+export const updateItema = async (req, res, next) => {
   // Only call the upload middleware if there are files to upload
   const uploadMiddleware = upload.array("images", 5);
 
@@ -20,7 +94,7 @@ export const updateItem = async (req, res, next) => {
     // Delete previous image if new files are uploaded
     if (req.files.length !== 0) {
       // delete previous image from the storagec
-      console.log("updatedProduct.prevImage", updatedProduct.prevImage)
+      console.log("updatedProduct.prevImage", updatedProduct.prevImage);
       deleteFile(updatedProduct.prevImage, (err) => {
         if (err) {
           console.error("Error deleting previous image:", err);
@@ -40,7 +114,7 @@ export const updateItem = async (req, res, next) => {
     }
 
     try {
-      console.log("updatedProduct", updatedProduct)
+      console.log("updatedProduct", updatedProduct);
       // Find the product by ID and update it with new data
       const updated = await Product.findByIdAndUpdate(
         updatedProduct._id,
@@ -134,10 +208,11 @@ export const deleteItem = async (req, res) => {
 
     // Find the product to get the image path
     const product = await Product.findById(productId);
+   
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
-
+    
     // Delete the image from the filesystem
     deleteFile(product.images[0].url);
 

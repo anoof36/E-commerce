@@ -8,7 +8,7 @@ const AddProductForm = ({ onClose, product }) => {
   });
 
   const [selectedFiles, setSelectedFiles] = useState();
-  const [errorMessage, setErrorMessage] = useState("");
+  const [message, setMessage] = useState({});
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -17,8 +17,10 @@ const AddProductForm = ({ onClose, product }) => {
       ...productData,
       [name]: type === "checkbox" ? checked : value,
     });
-  };
 
+    // Clear the message on any change
+  setMessage({ status: "", text: "" });
+  };
   const handleFileChange = (e) => {
     setSelectedFiles(e.target.files);
   };
@@ -35,8 +37,8 @@ const AddProductForm = ({ onClose, product }) => {
       formData.append("brand", productData.brand);
       formData.append("stock", productData.stock);
       formData.append("isFeatured", productData.isFeatured);
-      formData.append("prevImage", product.images[0].url)
-      formData.append("_id", productData._id)
+      formData.append("prevImage", product.images[0].url);
+      formData.append("_id", productData._id);
 
       // add images to the formData
       if (selectedFiles) {
@@ -44,21 +46,20 @@ const AddProductForm = ({ onClose, product }) => {
           formData.append("images", selectedFiles[i]);
         }
       }
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
-      }
 
-      const response = await axios.put(`${apiUrl}/api/products/update`, formData, {
-        header: {
-          "Content-Type": "multiple/form-data",
-        },
-      });
-      setErrorMessage("");
-      console.log(response.data); //handle the response
-      console.log("file Upload success");
+      const response = await axios.put(
+        `${apiUrl}/api/products/update`,
+        formData,
+        {
+          header: {
+            "Content-Type": "multiple/form-data",
+          },
+        }
+      );
+      setMessage({ status: "text-success", text: response?.data.message });
     } catch (error) {
-      console.log(error.response); // Log the error response if available
-      setErrorMessage(error.response?.data?.message || "An error occurred");
+      setMessage({ status: "text-danger", text: error?.response?.data.message });
+      
     }
   };
 
@@ -73,6 +74,7 @@ const AddProductForm = ({ onClose, product }) => {
             placeholder="Product Name"
             onChange={handleChange}
             value={productData.name}
+            required
           />
           <textarea
             name="description"
@@ -86,20 +88,31 @@ const AddProductForm = ({ onClose, product }) => {
             placeholder="Price"
             onChange={handleChange}
             value={productData.price}
+            required
           />
-          <input
-            type="text"
+           <select
             name="category"
-            placeholder="Category"
             onChange={handleChange}
-            value={productData.category}
-          />
+            required 
+            defaultValue=""
+          >
+            <option value="" disabled>
+              Select Category
+            </option>
+            <option value="Electronics">Electronics</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Furniture">Furniture</option>
+            <option value="Toys">Toys</option>
+            <option value="Books">Books</option>
+            <option value="Other">Other</option>  
+          </select>
           <input
             type="text"
             name="brand"
             placeholder="Brand"
             onChange={handleChange}
             value={productData.brand}
+            required
           />
           <input
             type="number"
@@ -107,8 +120,15 @@ const AddProductForm = ({ onClose, product }) => {
             placeholder="Stock"
             onChange={handleChange}
             value={productData.stock}
+            required
           />
-          <input type="file" multiple onChange={handleFileChange} />
+          <input
+            type="file"
+            name="images"
+            multiple
+            onChange={handleFileChange}
+            required
+          />
           {selectedFiles ? (
             <>
               {Array.from(selectedFiles).map((file, index) => (
@@ -143,10 +163,16 @@ const AddProductForm = ({ onClose, product }) => {
             update Product
           </button>
 
-          <button onClick={(e) => { e.preventDefault(); onClose(); }} className="btn btn-danger">
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              onClose();
+            }}
+            className="btn btn-danger"
+          >
             close
           </button>
-          {errorMessage && <p className="text-danger py-4">{errorMessage}</p>}
+          {message && <p className={`${message.status}`}>{message.text}</p>}
         </form>
       </div>
     </>
