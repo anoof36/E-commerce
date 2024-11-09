@@ -67,90 +67,119 @@ const AddProductForm = ({ onClose }) => {
 
   return (
     <>
-      <div className="container bg-light p-4 rounded-3">
+      <div className="container bg-light p-4 rounded-3 col-11">
         <h1>create</h1>
         <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="name"
-            placeholder="Product Name"
-            onChange={handleChange}
-            required
-          />
-          <textarea
-            name="description"
-            placeholder="Description"
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="number"
-            name="price"
-            placeholder="Price"
-            onChange={handleChange}
-            required
-          />
-          <select
-            name="category"
-            onChange={handleChange}
-            required
-            defaultValue=""
-          >
-            <option value="" disabled>
-              Select Category
-            </option>
-            <option value="Electronics">Electronics</option>
-            <option value="Clothing">Clothing</option>
-            <option value="Furniture">Furniture</option>
-            <option value="Toys">Toys</option>
-            <option value="Books">Books</option>
-            <option value="Other">Other</option>
-          </select>
-          <input
-            type="text"
-            name="brand"
-            placeholder="Brand"
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="number"
-            name="stock"
-            placeholder="Stock"
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="file"
-            name="images"
-            multiple
-            onChange={handleFileChange}
-            required
-          />
-          {selectedFiles && (
-            <div className="image-previews">
-              {Array.from(selectedFiles).map((file, index) => (
-                <img
-                  key={index}
-                  src={URL.createObjectURL(file)}
-                  alt="Preview"
-                  style={{ width: "200px", height: "auto", margin: "5px" }}
-                />
-              ))}
+          <div className="row">
+            <div className="form-group col-md-8">
+              <input
+                type="text"
+                name="name"
+                placeholder="Product Name"
+                onChange={handleChange}
+                required
+              />
             </div>
-          )}
-          <label>
-            Is Featured:
-            <input type="checkbox" name="isFeatured" onChange={handleChange} />
-          </label>
-          <button className="btn btn-primary" type="submit">
-            Add Product
-          </button>
+            <div className="form-group col-md-3">
+              <input
+                type="number"
+                name="price"
+                placeholder="Price"
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-          <button onClick={onClose} className="btn btn-danger">
-            close
-          </button>
-          {message && <p className={`${message.status}`}>{message.text}</p>}
+            <div className="form-group">
+              <textarea
+                name="description"
+                placeholder="Description"
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <select
+                name="category"
+                onChange={handleChange}
+                required
+                defaultValue=""
+              >
+                <option value="" disabled>
+                  Select Category
+                </option>
+                <option value="Pants & Trousers">Pants & Trousers</option>
+                <option value="Top">Top</option>
+                <option value="shirt & T-Shirt">Shirt & T-Shirt</option>
+                <option value="Cosmetics & Skincare">
+                  Cosmetics & Skincare
+                </option>
+                <option value="Churidaar">Churidaar</option>
+                <option value="Jeans">Jeans</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <input
+                type="text"
+                name="brand"
+                placeholder="Brand"
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <input
+                type="number"
+                name="stock"
+                placeholder="Stock"
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <input
+                type="file"
+                name="images"
+                multiple
+                onChange={handleFileChange}
+                required
+              />
+            </div>
+
+            {selectedFiles && (
+              <div className="image-previews">
+                {Array.from(selectedFiles).map((file, index) => (
+                  <img
+                    key={index}
+                    src={URL.createObjectURL(file)}
+                    alt="Preview"
+                    style={{ width: "200px", height: "auto", margin: "5px" }}
+                  />
+                ))}
+              </div>
+            )}
+            <label>
+              Is Featured:
+              <input
+                type="checkbox"
+                name="isFeatured"
+                onChange={handleChange}
+              />
+            </label>
+            <button className="btn btn-primary" type="submit">
+              Add Product
+            </button>
+
+            <button onClick={onClose} className="btn btn-danger">
+              close
+            </button>
+            {message && <p className={`${message.status}`}>{message.text}</p>}
+          </div>
         </form>
       </div>
     </>

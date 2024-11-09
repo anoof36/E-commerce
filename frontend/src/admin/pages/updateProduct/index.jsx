@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 const apiUrl = import.meta.env.VITE_API_URL;
 
-const AddProductForm = ({ onClose, product }) => {
+const updateProduct = ({ onClose, product }) => {
   const [productData, setProductData] = useState({
     ...product,
   });
@@ -19,7 +19,7 @@ const AddProductForm = ({ onClose, product }) => {
     });
 
     // Clear the message on any change
-  setMessage({ status: "", text: "" });
+    setMessage({ status: "", text: "" });
   };
   const handleFileChange = (e) => {
     setSelectedFiles(e.target.files);
@@ -58,8 +58,10 @@ const AddProductForm = ({ onClose, product }) => {
       );
       setMessage({ status: "text-success", text: response?.data.message });
     } catch (error) {
-      setMessage({ status: "text-danger", text: error?.response?.data.message });
-      
+      setMessage({
+        status: "text-danger",
+        text: error?.response?.data.message,
+      });
     }
   };
 
@@ -90,21 +92,22 @@ const AddProductForm = ({ onClose, product }) => {
             value={productData.price}
             required
           />
-           <select
+          <select
             name="category"
             onChange={handleChange}
-            required 
+            required
             defaultValue=""
           >
             <option value="" disabled>
               Select Category
             </option>
-            <option value="Electronics">Electronics</option>
-            <option value="Clothing">Clothing</option>
-            <option value="Furniture">Furniture</option>
-            <option value="Toys">Toys</option>
-            <option value="Books">Books</option>
-            <option value="Other">Other</option>  
+            <option value="Pants & Trousers">Pants & Trousers</option>
+            <option value="Top">Top</option>
+            <option value="shirt & T-Shirt">Shirt & T-Shirt</option>
+            <option value="Cosmetics & Skincare">Cosmetics & Skincare</option>
+            <option value="Churidaar">Churidaar</option>
+            <option value="Jeans">Jeans</option>
+            <option value="Other">Other</option>
           </select>
           <input
             type="text"
@@ -178,4 +181,4 @@ const AddProductForm = ({ onClose, product }) => {
   );
 };
 
-export default AddProductForm;
+export default updateProduct;
