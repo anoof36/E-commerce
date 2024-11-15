@@ -4,12 +4,14 @@ const RouterGuard = () => {
   return (
     <>
       <div
-      className="mx-auto" 
+        id="router-guard"
+        className="mx-auto"
         style={{
-          maxWidth: "1200px",
-          paddingTop: "2rem", 
-          color: "black",
           width: "100dvw",
+          maxWidth: "1200px",
+          minHeight: "100vh",
+          paddingTop: "30px",
+          color: "black",
           display: "flex",
         }}
       >

@@ -14,7 +14,7 @@ import ProductsPage from "./pages/productsPage";
 import "./App.css";
 import Footer from "./components/common/footer";
 import Header from "./components/common/header";
-import ProductList from "./admin/pages/productsList";
+import Dashboard from "./admin/pages/dashboard";
 function App() {
   return (
     <>
@@ -22,7 +22,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/admin" element={<RouterGuard />}>
-            <Route index element={<ProductList />} />
+            <Route index element={< Dashboard/>} />
           </Route>
           <Route path="/" element={<RouterGuard />}>
             <Route index element={<HomePage />} />
