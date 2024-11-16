@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./index.module.css";
-import HeroSession from "../../components/common/hero";
-import BestSelling from "../../components/common/bestSelling";
-import Carogorys from "../../components/common/catogorys";
+import HeroSession from "../../../components/common/hero";
+import BestSelling from "../../../components/common/bestSelling";
+import Carogorys from "../../../components/common/catogorys";
 
 const HomePage = () => {
   console.log("homepage is working");

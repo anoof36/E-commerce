@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
-import AppHeader from "../common/header";
-import Footer from "../common/footer";
+import AdminHeader from "../commen/header"
+
 
 const RouterGuard = () => {
   return (
     <>
-      <AppHeader />
+     <AdminHeader />
       <div
         id="router-guard"
         className="mx-auto"
@@ -13,14 +13,13 @@ const RouterGuard = () => {
           width: "100dvw",
           maxWidth: "1200px",
           minHeight: "100vh",
-          paddingTop: "30px",
           color: "black",
           display: "flex",
         }}
       >
         <Outlet />
       </div>
-      <Footer />
+     
     </>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // Main component for the Admin Home Page
-const AdminHomePage = () => {
+const Dashborad = () => {
   // State to track whether the menu is open or closed
   const [isMenuOpen, setMenuOpen] = useState(false);
 
@@ -42,4 +42,4 @@ const AdminHomePage = () => {
   );
 };
 
-export default AdminHomePage; // Export the component for use in other parts of the app
+export default Dashborad; // Export the component for use in other parts of the app

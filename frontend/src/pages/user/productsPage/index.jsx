@@ -1,6 +1,6 @@
 import {React, useState} from "react";
 import styles from "./index.module.css";
-import Card from "../../components/common/Card";
+import Card from "../../../components/common/Card";
 
 const ProductsPage = () => {
   const [showFilter, setShowFilter] =useState(false)

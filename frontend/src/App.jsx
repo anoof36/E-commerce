@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css"; //Bootstrap
 import "bootstrap/dist/js/bootstrap.bundle.min.js"; // Includes Popper.js and Bootstrap JS
 import RouterGuard from "./components/layouts/layout";
+import AdminRouterGuard from "./pages/admin/components/layouts/adminLayout";
 import {
   BrowserRouter as Router,
   Routes,
@@ -8,20 +9,17 @@ import {
   useNavigate,
   Navigate,
 } from "react-router-dom";
-import LoginPage from "./pages/loginPage";
-import HomePage from "./pages/homePage";
-import ProductsPage from "./pages/productsPage";
+import LoginPage from "./pages/user/loginPage";
+import HomePage from "./pages/user/homePage";
+import ProductsPage from "./pages/user/productsPage";
 import "./App.css";
-import Footer from "./components/common/footer";
-import Header from "./components/common/header";
-import Dashboard from "./admin/pages/dashboard";
+import Dashboard from "./pages/admin/dashboard";
 function App() {
   return (
     <>
       <Router>
-        <Header />
         <Routes>
-          <Route path="/admin" element={<RouterGuard />}>
+          <Route path="/admin" element={<AdminRouterGuard />}>
             <Route index element={< Dashboard/>} />
           </Route>
           <Route path="/" element={<RouterGuard />}>
@@ -31,7 +29,6 @@ function App() {
           </Route>
         </Routes>
       </Router>
-      <Footer />
     </>
   );
 }
