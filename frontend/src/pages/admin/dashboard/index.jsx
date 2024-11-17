@@ -10,34 +10,18 @@ const Dashborad = () => {
 
   return (
     <div className="w-100 bg-danger row m-0">
-      {/* Button to toggle the menu, visible only on mobile (d-md-none) */}
-      <button 
-        className="btn btn-primary d-md-none" 
-        onClick={toggleMenu}
-      >
-        Toggle Menu
-      </button>
-
-      {/* Left menu section */}
-      <div
-        id="left-dive"
-        className={`bg-success h-100 ${
-          isMenuOpen ? "w-100 position-absolute" : "w-25"
+      
+      {/*toggle menu section */}
+      <div  
+        id="toggle-menu"
+        className={`bg-primary h-100 ${
+          isMenuOpen ? "col-9 position-absolute" : "col-1"
         }`}
       >
-        {/* Conditionally render a close button if the menu is open */}
-        {isMenuOpen && (
-          <button
-            className="btn btn-light position-absolute top-0 end-0 m-2"
-            onClick={() => setMenuOpen(false)} // Close the menu when clicked
-          >
-            Close
-          </button>
-        )}
       </div>
 
       {/* Right content section */}
-      <div id="right-dive" className="bg-warning w-75"></div>
+      <div id="main-div" className="bg-warning w-75"></div>
     </div>
   );
 };

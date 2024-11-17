@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { XLg, Search, ThreeDotsVertical } from "react-bootstrap-icons";
 import Button from "../button";
 import style from "./index.module.css";
+import ThemeToggle from "../themeButton";
 
 const AppHeader = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -45,9 +46,9 @@ const AppHeader = () => {
                   </div>
                 </button>
               </form>
-
+              <ThemeToggle />  
               {/* TOGGLE BUTTON */}
-              <div className="position-relative">
+              <div className="position-relative ">
                 <Button
                   onClick={togglePopup}
                   ariaExpanded={isPopupOpen}
